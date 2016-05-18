@@ -1,54 +1,92 @@
 <!DOCTYPE html>
-<html>
-<!-- http://www.yelp.com/search?find_loc=New+Brunswick,+NJ&cflt=restaurants -->
+<html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>testing</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Experiod</title>
+    <!-- SOCIAL MEDIA ICONS -->
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- GOOGLE FONTS -->
+    <link href='https://fonts.googleapis.com/css?family=Dancing+Script:700|Oswald' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MDB core CSS -->
+    <link href="http://mdbootstrap.com/mdbcdn/mdb.min.css" rel="stylesheet">
+    <!-- LOCAL CSS -->
+    <link rel="stylesheet" type="text/css" href="css/landing-page.css">
+    <!-- RESET CSS -->
+    <link rel="stylesheet" href="css/reset.css">
 </head>
+
 <body>
-<div id="latitudeAndLongitude"></div>
-<div id="address"></div>
+    <!-- NAV -->
+    <nav class="navbar default-transparent">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="images/logo/minilogo.png" class="img-responsive">
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#" class="waves-effect waves-light">Home <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#" class="waves-effect waves-light">Restaurants</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- /NAV -->
+    <div class="container text-center">
+        <div class="row logo">
+            <div class="col-md-6 col-md-offset-3">
+                <img src="images/logo/mainlogo.png" class="img-responsive animated slideInDown">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 icons">
+                <a href=""><i class="ion-social-facebook"></i></a>
+                <a href="https://github.com/BryantBello/Soup-A-Stars"><i class="ion-social-octocat"></i></a>
+                <a href=""><i class="ion-social-linkedin-outline"></i></a>
+                <a href=""><i class="ion-social-twitter"></i></a>
+            </div>
+            <div class="col-md-6 col-md-offset-3">
+                <button class="btn btn-danger btn-lg animated infinite pulse" onclick="window.signin();">Get started
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="http://mdbootstrap.com/mdbcdn/mdb.min.js"></script>
+    <!-- BACKGROUND CHANGER -->
+    <script src="javascript/main-page-background.js"></script>
+    <!-- OAUTH SCRIPT -->
+    <script src="https://cdn.auth0.com/js/lock-9.1.min.js"></script>
+    <script type="text/javascript">
+    var lock = new Auth0Lock('rIZ3xtbY00Y3XcGTAyykN7eROiNPlWEN', 'bryantbello.auth0.com');
+    function signin() {
+        lock.show({
+            callbackURL: '/public/index.html',
+            responseType: 'code',
+            authParams: {
+                scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes 
+            }
+        }, function(a, b, c, d, e){
+        	console.log(a)
+        	console.log(b)
+        	if(c) console.log(c)
+        	if(d) console.log(d)
+        	if(e) console.log(e)
+        });
+    }
+    </script>
 </body>
+
 </html>
-<script type="text/javascript">
-	$(document).ready(function(){
-		var latitudeAndLongitude=$("#latitudeAndLongitude"),
-	location={
-    	latitude:'',
-    	longitude:''
-	};
-
-if (navigator.geolocation){
-  navigator.geolocation.getCurrentPosition(showPosition);
-}
-else{
-  latitudeAndLongitude.innerHTML="Geolocation is not supported by this browser.";
-}
-	});
-	function showPosition(position){ 
-    location.latitude=position.coords.latitude;
-    location.longitude=position.coords.longitude;
-    latitudeAndLongitude.innerHTML="Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude; 
-    var geocoder = new google.maps.Geocoder();
-    var latLng = new google.maps.LatLng(location.latitude, location.longitude);
-
- if (geocoder) {
-    geocoder.geocode({ 'latLng': latLng}, function (results, status) {
-       if (status == google.maps.GeocoderStatus.OK) {
-         console.log(results[0].formatted_address); 
-         $('#address').html('Address:'+results[0].formatted_address);
-       }
-       else {
-        $('#address').html('Geocoding failed: '+status);
-        console.log("Geocoding failed: " + status);
-       }
-    }); //geocoder.geocode()
-  }      
-} //showPosition
-
-	
-</script>
