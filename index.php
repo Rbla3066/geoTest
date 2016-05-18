@@ -1,1 +1,1 @@
-<?php include_once("scrape.html"); ?>
+<?php include_once("index.html"); ?>

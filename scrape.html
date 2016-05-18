@@ -73,17 +73,11 @@
     var lock = new Auth0Lock('rIZ3xtbY00Y3XcGTAyykN7eROiNPlWEN', 'bryantbello.auth0.com');
     function signin() {
         lock.show({
-            callbackURL: '/public/index.html',
+            callbackURL: 'http://localhost:3020/user',
             responseType: 'code',
             authParams: {
                 scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes 
             }
-        }, function(a, b, c, d, e){
-        	console.log(a)
-        	console.log(b)
-        	if(c) console.log(c)
-        	if(d) console.log(d)
-        	if(e) console.log(e)
         });
     }
     </script>
